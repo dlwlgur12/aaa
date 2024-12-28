@@ -1,16 +1,23 @@
 {
-  "name": "IPO 거래 플랫폼",
+  "name": "ipo-trading-platform",
   "version": "1.0.0",
-  "description": "Your project description",
   "main": "index.js",
   "scripts": {
-    "build": "your build command here",
-    "start": "your start command here"
+    "start": "npm run client",  // Vercel에서 클라이언트만 실행하면 되므로 백엔드 서버는 제거
+    "client": "react-scripts start"  // 클라이언트는 `react-scripts`로 실행
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.2",
+    "react-scripts": "^5.0.1",
+    "serverless-http": "^3.2.0"  // Vercel의 서버리스 함수용
   },
-  "devDependencies": {},
-  "author": "Your Name",
-  "license": "MIT"
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
 }
