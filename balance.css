@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* 전체 페이지 스타일 */
 body {
     font-family: 'Roboto', sans-serif;
@@ -87,3 +88,94 @@ footer {
     padding: 20px;
     margin-top: 20px;
 }
+=======
+/* 전체 페이지 스타일 */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 페이지 레이아웃을 위한 컨테이너 */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 헤더 스타일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    background-color: #1e3d58; /* 다크 블루 */
+    color: white;
+    padding: 20px;
+}
+
+.logo a {
+    font-size: 24px;
+    color: #007bff; /* 블루로 변경 */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-info span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#balance {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+/* 인증 버튼 영역 스타일 */
+.auth-actions {
+    text-align: center;
+}
+
+.btn-danger {
+    padding: 12px 25px;
+    font-size: 16px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+/* 로그아웃 버튼 hover 스타일 */
+.btn-danger:hover {
+    background-color: #d32f2f;
+}
+
+/* 푸터 스타일 */
+footer {
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #1e3d58; /* 다크 블루 */
+    padding: 20px;
+    margin-top: 20px;
+}
+>>>>>>> 3540da6 (Add new backend API files)
