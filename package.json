@@ -1,0 +1,16 @@
+{
+  "name": "IPO 거래 플랫폼",
+  "version": "1.0.0",
+  "description": "Your project description",
+  "main": "index.js",
+  "scripts": {
+    "build": "your build command here",
+    "start": "your start command here"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "author": "Your Name",
+  "license": "MIT"
+}
