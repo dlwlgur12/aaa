@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm run client",  // Vercel에서 클라이언트만 실행하면 되므로 백엔드 서버는 제거
-    "client": "react-scripts start"  // 클라이언트는 `react-scripts`로 실행
+    "start": "npm run client",  
+    "client": "react-scripts start"  
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -15,7 +15,7 @@
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.2",
     "react-scripts": "^5.0.1",
-    "serverless-http": "^3.2.0"  // Vercel의 서버리스 함수용
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "concurrently": "^7.2.2"
