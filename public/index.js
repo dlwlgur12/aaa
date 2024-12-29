@@ -71,17 +71,22 @@ function checkLoginStatus() {
 
 // 서버에서 사용자 정보 및 잔고를 가져오는 함수
 function getUserInfo(token) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5초 타임아웃 설정
+
     fetch('https://aaa-fawn-pi.vercel.app/api/user', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
-        }
+        },
+        signal: controller.signal, // 타임아웃과 연결된 신호 추가
     })
     .then(response => {
+        clearTimeout(timeoutId);  // 응답이 오면 타임아웃 해제
         if (!response.ok) {
             throw new Error(`서버 응답 오류: ${response.statusText}`);
         }
-        return response.json();  // 응답이 JSON일 경우 파싱
+        return response.json();
     })
     .then(data => {
         if (data.name && data.balance !== undefined) {
@@ -99,7 +104,11 @@ function getUserInfo(token) {
         }
     })
     .catch(error => {
-        console.error('사용자 정보를 가져오는 데 오류가 발생했습니다:', error);
+        clearTimeout(timeoutId);  // 오류가 발생하면 타임아웃 해제
+        if (error.name === 'AbortError') {
+            console.error('요청이 시간 초과되었습니다.');
+        } else {
+            console.error('사용자 정보를 가져오는 데 오류가 발생했습니다:', error);
+        }
     });
 }
-
