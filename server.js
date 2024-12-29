@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ipo-trading
 })
   .then(() => console.log('MongoDB 연결 성공'))
   .catch(err => {
-    console.error('MongoDB 연결 실패:', err);
+    console.error('MongoDB 연결 오류:', err); // MongoDB 연결 오류 로그 추가
     process.exit(1); // 서버 종료
   });
 
@@ -124,23 +124,6 @@ app.post('/signup', async (req, res) => {
 
     await newUser.save();
     res.json({ message: '회원가입 성공' });
-  } catch (error) {
-    res.status(500).json({ message: '서버 오류: ' + error.message });
-  }
-});
-
-// 사용자 정보 가져오기 API
-app.get('/user', authenticateToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.userId);
-    if (!user) {
-      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
-    }
-    res.json({
-      name: user.name,
-      balance: user.balance,
-      stocks: user.stocks || [],
-    });
   } catch (error) {
     res.status(500).json({ message: '서버 오류: ' + error.message });
   }
