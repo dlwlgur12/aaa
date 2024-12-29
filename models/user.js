@@ -13,4 +13,4 @@ const userSchema = new mongoose.Schema({
     stocks: { type: Array, default: [] }  // 사용자 보유 주식
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);
