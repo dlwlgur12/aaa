@@ -19,12 +19,13 @@ function checkLoginStatus() {
     const logoutBtn = document.getElementById('logout-btn');
     const assetsBtn = document.getElementById('assets-btn');  // 보유 자산 버튼
 
+    // 로그인 상태에 따라 UI 업데이트
     if (token) {
         // 로그인된 상태
-        loginBtn.style.display = 'none';
-        signupBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline-block';
-        assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (signupBtn) signupBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+        if (assetsBtn) assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
 
         getUserInfo(token);  // 사용자 정보 가져오기
         if (greetingMessage) {
@@ -32,10 +33,10 @@ function checkLoginStatus() {
         }
     } else {
         // 로그인되지 않은 상태
-        loginBtn.style.display = 'inline-block';
-        signupBtn.style.display = 'inline-block';
-        logoutBtn.style.display = 'none';
-        assetsBtn.style.display = 'none'; // 보유 자산 버튼 숨기기
+        if (loginBtn) loginBtn.style.display = 'inline-block';
+        if (signupBtn) signupBtn.style.display = 'inline-block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (assetsBtn) assetsBtn.style.display = 'none'; // 보유 자산 버튼 숨기기
         if (greetingMessage) {
             greetingMessage.style.display = 'none';
         }
