@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
   }],
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('user', userSchema);
 
 // JWT 인증 미들웨어
 const authenticateToken = (req, res, next) => {
@@ -71,7 +71,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 // 로그인 API
-app.post('/login', async (req, res) => {
+app.post('api/login', async (req, res) => {
   const { id, password } = req.body;
 
   if (!id || !password) {
@@ -107,7 +107,7 @@ app.post('/login', async (req, res) => {
 });
 
 // 회원가입 API
-app.post('/signup', async (req, res) => {
+app.post('api/signup', async (req, res) => {
   const { id, name, email, phone, brokerage, accountNumber, password } = req.body;
 
   if (!id || !name || !email || !phone || !brokerage || !accountNumber || !password) {
@@ -141,7 +141,7 @@ app.post('/signup', async (req, res) => {
 });
 
 // 보호된 사용자 정보 가져오기 API
-app.get('/user', authenticateToken, async (req, res) => {
+app.get('api/user', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
 
