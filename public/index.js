@@ -71,7 +71,7 @@ function checkLoginStatus() {
 
 // 서버에서 사용자 정보 및 잔고를 가져오는 함수
 function getUserInfo(token) {
-    fetch('http://localhost:5000/user', {
+    fetch('https://aaa-fawn-pi.vercel.app/api/user', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
