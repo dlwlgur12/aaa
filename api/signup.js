@@ -1,7 +1,3 @@
-const express = require('express');
-const app = express();
-app.use(express.json());  // 이 줄 추가
-
 const bcrypt = require('bcrypt');
 const User = require('../models/user');  // User 모델을 불러옵니다.
 
