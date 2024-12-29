@@ -72,7 +72,7 @@ function checkLoginStatus() {
 // 서버에서 사용자 정보 및 잔고를 가져오는 함수
 function getUserInfo(token) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5초 타임아웃 설정
+    const timeoutId = setTimeout(() => controller.abort(), 5000);  // 5초 타임아웃 설정
 
     fetch('https://aaa-fawn-pi.vercel.app/api/user', {
         method: 'GET',
