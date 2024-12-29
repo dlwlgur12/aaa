@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ipo-trading
 
 // CORS 설정
 app.use(cors({
-  origin: '*', // 모든 출처 허용 (필요 시 특정 출처로 제한 가능)
+  origin: 'https://aaa-fawn-pi.vercel.app', // 클라이언트 주소로 설정
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
