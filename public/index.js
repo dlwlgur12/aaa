@@ -4,33 +4,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
-            localStorage.removeItem('token');
-            checkLoginStatus();
+            localStorage.removeItem('token');  // 로컬스토리지에서 토큰 삭제
+            checkLoginStatus();  // 로그인 상태 체크 후 UI 업데이트
         });
     }
 });
 
 function checkLoginStatus() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');  // 로컬스토리지에서 토큰 가져오기
     const loginBtn = document.getElementById('login-btn');
     const signupBtn = document.getElementById('signup-btn');
     const greetingMessage = document.getElementById('greeting-message');
     const balanceElement = document.getElementById('balance');
     const logoutBtn = document.getElementById('logout-btn');
-    const assetsBtn = document.getElementById('assets-btn'); // 보유 자산 버튼
+    const assetsBtn = document.getElementById('assets-btn');  // 보유 자산 버튼
 
     if (token) {
-        // 로그인 된 경우
+        // 로그인된 상태
         loginBtn.style.display = 'none';
         signupBtn.style.display = 'none';
         logoutBtn.style.display = 'inline-block';
         assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
+
         getUserInfo(token);  // 사용자 정보 가져오기
         if (greetingMessage) {
             greetingMessage.style.display = 'inline-block';
         }
     } else {
-        // 로그인 안된 경우
+        // 로그인되지 않은 상태
         loginBtn.style.display = 'inline-block';
         signupBtn.style.display = 'inline-block';
         logoutBtn.style.display = 'none';
