@@ -1,7 +1,7 @@
 // api/signup.js
 
 const bcrypt = require('bcrypt');
-const User = require('../models/User');  // User 모델을 불러옵니다.
+const User = require('../models/user');  // User 모델을 불러옵니다.
 
 module.exports = async (req, res) => {
   const { id, name, email, phone, brokerage, accountNumber, password } = req.body;

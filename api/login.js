@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');  // User 모델을 불러옵니다.
+const User = require('../models/user');  // User 모델을 불러옵니다.
 const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key';
 
 module.exports = async (req, res) => {
