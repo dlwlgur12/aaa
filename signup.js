@@ -17,7 +17,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     }
 
     try {
-        const response = await fetch('http://localhost:5000/signup', {
+        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/signup', {  // 수정된 부분
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
