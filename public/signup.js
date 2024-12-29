@@ -17,7 +17,8 @@ document.getElementById('signup-form').addEventListener('submit', async function
     }
 
     try {
-        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/signup', {  // 수정된 부분
+        console.log('Sending request to /api/signup');
+        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,6 +35,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
         });
 
         const data = await response.json();
+        console.log('Response from API:', data);  // 응답 로그 추가
 
         if (response.ok) {
             alert('회원가입 성공!');
@@ -43,5 +45,6 @@ document.getElementById('signup-form').addEventListener('submit', async function
         }
     } catch (error) {
         alert(`오류 발생: ${error.message}`);
+        console.error('Error during fetch:', error);  // 에러 로그 추가
     }
 });
