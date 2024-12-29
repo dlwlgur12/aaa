@@ -10,11 +10,14 @@ const app = express();
 const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key';
 const PORT = process.env.PORT || 5000;
 
-// MongoDB 연결
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ipo-trading-platform', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// MongoDB 연결 (변경된 연결 URI 적용)
+mongoose.connect(
+  process.env.MONGO_URI || 'mongodb+srv://qpqp998974:qpqp998974@cluster0.z5hsl.mongodb.net/myDatabase?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+)
   .then(() => console.log('MongoDB 연결 성공'))
   .catch(err => {
     console.error('MongoDB 연결 오류:', err); // MongoDB 연결 오류 로그 추가
