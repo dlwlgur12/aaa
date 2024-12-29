@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UStock Plus - IPO 거래 플랫폼</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* 텍스트 색상 수정 */
+        body {
+            color: #000000; /* 일반 본문 텍스트는 검은색 */
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #greeting-message, #balance {
+            color: #000000; /* ooo님 반갑습니다와 잔고는 하얀색 */
+        }
+         /* 로고 텍스트 색상 수정 */
+         .logo a {
+            color: #007bff; /* 로고 텍스트 색상 */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="index.html" class="menu-link">UStock Plus</a>
+        </div>
+        <div id="user-info" class="user-info">
+            <span id="greeting-message" style="display: none;">OOO님, 반갑습니다!</span> <!-- 로그인된 사용자 이름 표시 -->
+            
+            <button id="my-assets" class="btn-primary" style="display: none;">내 자산</button> <!-- 내 자산 버튼 -->
+            <button id="logout-btn" class="btn-danger" style="display: none;">로그아웃</button>
+        </div>
+        <div id="auth-menu" class="auth-menu">
+            <button id="login-btn" class="btn-primary">로그인</button>
+            <button id="signup-btn" class="btn-secondary">회원가입</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>UStock Plus에 오신 것을 환영합니다!</h1>
+            <p>IPO 주식 거래 플랫폼에서 새로운 기회를 찾아보세요.</p>
+            <a href="exchange.html" class="btn-primary">거래소 시작하기</a>
+            
+        </div>
+    </section>
+
+    <!-- 공모주 관련 뉴스 섹션 -->
+    <section class="ipo-news">
+        <div class="container">
+            <h2>실시간 공모주 뉴스</h2>
+            <div class="news-item">
+                <h3>IPO A, 상장 첫날 급등</h3>
+                <p>IPO A가 상장 첫날 급등하며 투자자들 사이에서 큰 관심을 끌고 있습니다.</p>
+                <a href="#" class="btn-link">자세히 보기</a>
+            </div>
+            <div class="news-item">
+                <h3>주식 B, 변동성 높은 거래</h3>
+                <p>주식 B는 최근 변동성이 커져 투자자들이 주의할 필요성이 제기되었습니다.</p>
+                <a href="#" class="btn-link">자세히 보기</a>
+            </div>
+            <div class="news-item">
+                <h3>IPO C, 공개된 청약 일정</h3>
+                <p>IPO C가 공개 청약을 시작하며 많은 투자자들이 주목하고 있습니다.</p>
+                <a href="#" class="btn-link">자세히 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Stocks Section (추천 공모주) -->
+    <section class="featured-ipo">
+        <div class="container">
+            <h2>추천 공모주</h2>
+            <div class="stocks-list">
+                <div class="stock-card">
+                    <h3>IPO A</h3>
+                    <p>상장 예정일: 2024년 5월</p>
+                    <p>최소 청약 금액: 10만원</p>
+                    <button class="btn-trade">청약하기</button>
+                </div>
+                <div class="stock-card">
+                    <h3>IPO B</h3>
+                    <p>상장 예정일: 2024년 6월</p>
+                    <p>최소 청약 금액: 20만원</p>
+                    <button class="btn-trade">청약하기</button>
+                </div>
+                <div class="stock-card">
+                    <h3>IPO C</h3>
+                    <p>상장 예정일: 2024년 7월</p>
+                    <p>최소 청약 금액: 15만원</p>
+                    <button class="btn-trade">청약하기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 UStock Plus. All rights reserved.</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>잔고 확인</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="balance.js"></script>
+    <style>
+        body {
+            color: #333333;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        header .logo {
+            font-size: 2.2em;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        header .user-info {
+            margin-top: 10px;
+        }
+
+        #greeting-message, #balance {
+            color: #000000;
+        }
+
+        .assets-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .asset-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 280px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .asset-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .asset-card h3 {
+            font-size: 1.4em;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .asset-card p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .asset-card .value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0066cc;
+            margin-top: 10px;
+        }
+
+        .asset-card .listing-date {
+            font-size: 1em;
+            color: #ffcc00;
+        }
+
+        .asset-card .btn-deposit {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .asset-card .btn-deposit:hover {
+            background-color: #388e3c;
+        }
+
+        .hero {
+            background-color: #0066cc;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin: 10px 0;
+        }
+
+        .assets h2 {
+            font-size: 2em;
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        footer {
+            background-color: #1e3d58;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        header .logo a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .alert-message {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            font-size: 1.0em;
+            text-align: center;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert-message.show {
+            display: block;
+        }
+
+        .alert-message button {
+            background: transparent;
+            border: none;
+            font-size: 1.2em;
+            color: white;
+            cursor: pointer;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+        .alert-message button:hover {
+            color: #080808;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html" class="menu-link">UStock Plus</a>
+        </div>
+        <div class="user-info" style="display: flex; align-items: center; gap: 15px; justify-content: center;">
+            <span id="greeting-message">로그인 후 사용 가능합니다.</span>
+            <button id="logout-btn" class="btn-danger" style="display: none;">로그아웃</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>내 자산 확인</h1>
+            <p>현재 보유한 종목을 확인하세요.</p>
+        </div>
+    </section>
+
+    <section class="assets">
+        <h2>보유 종목</h2>
+        <div class="assets-container" id="assets-container">
+            <!-- 자산 카드들 동적으로 추가될 부분 -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 UStock Plus. All rights reserved.</p>
+    </footer>
+
+    <!-- 알림 메시지 -->
+    <div id="alert-message" class="alert-message">
+        공모주 특성상 증권계좌 입고는 전날 가능합니다.
+        <button onclick="closeAlert()">닫기</button>
+    </div>
+</body>
+</html>
