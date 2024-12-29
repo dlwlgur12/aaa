@@ -1,3 +1,4 @@
+// index.js
 document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
 
@@ -89,24 +90,20 @@ function getUserInfo(token) {
         return response.json();
     })
     .then(data => {
-        console.log("응답 데이터:", data);  // 응답 데이터 확인
-
-        // 서버에서 반환한 데이터가 예상한 형식인지 확인
-        if (data && data.name && data.balance !== undefined) {
+        if (data.name && data.balance !== undefined) {
             const greetingMessage = document.getElementById('greeting-message');
             const balanceElement = document.getElementById('balance');
 
             if (greetingMessage) {
                 greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
-                greetingMessage.style.display = 'inline-block';  // 이름 보이기
+                greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시
             }
-
             if (balanceElement) {
                 balanceElement.textContent = `잔고: ${data.balance}원`;  // 잔고 표시
                 balanceElement.style.display = 'inline-block';  // 잔고를 보이게 함
             }
         } else {
-            console.error('사용자 정보가 부족합니다.');  // 데이터 부족 시 오류 메시지
+            console.error('사용자 정보가 부족합니다.');
         }
     })
     .catch(error => {
