@@ -10,29 +10,25 @@ const app = express();
 const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key';
 const PORT = process.env.PORT || 5000;
 
-// MongoDB 연결 (변경된 연결 URI 적용)
-mongoose.connect(
-  process.env.MONGO_URI || 'mongodb+srv://qpqp998974:qpqp998974@cluster0.z5hsl.mongodb.net/myDatabase?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-)
+// MongoDB 연결
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log('MongoDB 연결 성공'))
   .catch(err => {
-    console.error('MongoDB 연결 오류:', err); // MongoDB 연결 오류 로그 추가
-    process.exit(1); // 서버 종료
+    console.error('MongoDB 연결 오류:', err);
+    process.exit(1);
   });
 
 // CORS 설정
 app.use(cors({
-  origin: '*', // 모든 출처 허용 (필요 시 특정 출처로 제한 가능)
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
 }));
 
-// 기본 미들웨어
+// 미들웨어 설정
 app.use(bodyParser.json());
 
 // 사용자 스키마
@@ -90,17 +86,9 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ message: '아이디 또는 비밀번호가 잘못되었습니다.' });
     }
 
-    // JWT 토큰 발급
     const token = jwt.sign({ userId: user._id, id: user.id, name: user.name }, SECRET_KEY, { expiresIn: '1h' });
 
-    // 로그인 성공 후 사용자 이름과 잔고 정보 반환
-    res.json({ 
-      message: '로그인 성공', 
-      token, 
-      name: user.name, 
-      balance: user.balance, 
-      stocks: user.stocks 
-    });
+    res.json({ message: '로그인 성공', token, name: user.name, balance: user.balance, stocks: user.stocks });
   } catch (error) {
     res.status(500).json({ message: '서버 오류: ' + error.message });
   }
@@ -129,8 +117,6 @@ app.post('/signup', async (req, res) => {
       brokerage,
       accountNumber,
       password: hashedPassword,
-      balance: 0,
-      stocks: [],
     });
 
     await newUser.save();
@@ -140,7 +126,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// 보호된 사용자 정보 가져오기 API
+// 사용자 정보 API
 app.get('/user', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
@@ -149,11 +135,7 @@ app.get('/user', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
     }
 
-    res.json({
-      name: user.name,
-      balance: user.balance,
-      stocks: user.stocks,
-    });
+    res.json({ name: user.name, balance: user.balance, stocks: user.stocks });
   } catch (error) {
     res.status(500).json({ message: '서버 오류: ' + error.message });
   }
