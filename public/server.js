@@ -26,7 +26,7 @@ mongoose.connect(
 
 // CORS 설정
 app.use(cors({
-  origin: '*', // 모든 출처 허용 (필요 시 특정 출처로 제한 가능)
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
   accountNumber: { type: String, required: true },
   password: { type: String, required: true },
   balance: { type: Number, default: 0 },
-  stocks: [{
+  stocks: [ {
     symbol: String,
     name: String,
     logoUrl: String,
@@ -64,14 +64,17 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: '로그인이 필요합니다.' });
 
   jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err) return res.status(403).json({ message: '유효하지 않은 토큰입니다.' });
+    if (err) {
+      console.error('JWT 검증 오류:', err);  // 오류 로그 추가
+      return res.status(403).json({ message: '유효하지 않은 토큰입니다.' });
+    }
     req.user = user;
     next();
   });
 };
 
 // 로그인 API
-app.post('api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { id, password } = req.body;
 
   if (!id || !password) {
@@ -107,7 +110,7 @@ app.post('api/login', async (req, res) => {
 });
 
 // 회원가입 API
-app.post('api/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
   const { id, name, email, phone, brokerage, accountNumber, password } = req.body;
 
   if (!id || !name || !email || !phone || !brokerage || !accountNumber || !password) {
@@ -141,7 +144,7 @@ app.post('api/signup', async (req, res) => {
 });
 
 // 보호된 사용자 정보 가져오기 API
-app.get('api/user', authenticateToken, async (req, res) => {
+app.get('/api/user', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
 
