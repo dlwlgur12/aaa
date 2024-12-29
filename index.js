@@ -1,4 +1,4 @@
-dedocument.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
 
     // 로그인 버튼 클릭 시
@@ -83,7 +83,9 @@ function getUserInfo(token) {
             if (greetingMessage) {
                 greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
             }
-            
+            if (balanceElement) {
+                balanceElement.textContent = `잔고: ${data.balance}`;  // 잔고 표시
+            }
         } else {
             console.error('잔고 정보가 없습니다.');
         }
