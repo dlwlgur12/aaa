@@ -77,7 +77,12 @@ function getUserInfo(token) {
             'Authorization': `Bearer ${token}`,
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`서버 응답 오류: ${response.statusText}`);
+        }
+        return response.json();  // 응답이 JSON일 경우 파싱
+    })
     .then(data => {
         if (data.name && data.balance !== undefined) {
             const greetingMessage = document.getElementById('greeting-message');
@@ -97,3 +102,4 @@ function getUserInfo(token) {
         console.error('사용자 정보를 가져오는 데 오류가 발생했습니다:', error);
     });
 }
+
