@@ -70,6 +70,7 @@ function checkLoginStatus() {
 }
 
 // 서버에서 사용자 정보 및 잔고를 가져오는 함수
+// 서버에서 사용자 정보 및 잔고를 가져오는 함수
 function getUserInfo(token) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);  // 5초 타임아웃 설정
@@ -89,15 +90,18 @@ function getUserInfo(token) {
         return response.json();
     })
     .then(data => {
+        console.log("응답 데이터:", data);  // 데이터 확인
         if (data.name && data.balance !== undefined) {
             const greetingMessage = document.getElementById('greeting-message');
             const balanceElement = document.getElementById('balance');
 
             if (greetingMessage) {
                 greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
+                greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시
             }
             if (balanceElement) {
                 balanceElement.textContent = `잔고: ${data.balance}원`;  // 잔고 표시
+                balanceElement.style.display = 'inline-block';  // 잔고를 보이게 함
             }
         } else {
             console.error('사용자 정보가 부족합니다.');
