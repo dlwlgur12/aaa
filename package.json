@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "next build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "react-scripts build",
+    "postbuild": "mv build/* public/ && cp -r public/* /path/to/deploy/folder"
   },
   "dependencies": {
     "axios": "^1.7.9",
