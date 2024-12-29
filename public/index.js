@@ -12,30 +12,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function checkLoginStatus() {
     const token = localStorage.getItem('token');
+    const loginBtn = document.getElementById('login-btn');
+    const signupBtn = document.getElementById('signup-btn');
     const greetingMessage = document.getElementById('greeting-message');
     const balanceElement = document.getElementById('balance');
     const logoutBtn = document.getElementById('logout-btn');
+    const assetsBtn = document.getElementById('assets-btn'); // 보유 자산 버튼
 
     if (token) {
+        // 로그인 된 경우
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
         logoutBtn.style.display = 'inline-block';
+        assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
         getUserInfo(token);
         if (greetingMessage) {
             greetingMessage.style.display = 'inline-block';
         }
     } else {
+        // 로그인 안된 경우
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        assetsBtn.style.display = 'none'; // 보유 자산 버튼 숨기기
         if (greetingMessage) {
             greetingMessage.style.display = 'none';
         }
         if (balanceElement) {
             balanceElement.style.display = 'none';
         }
-        logoutBtn.style.display = 'none';
-        window.location.href = 'login.html';  // 로그인 페이지로 리다이렉트
     }
 }
 
 function getUserInfo(token) {
-    fetch('https://aaa-fawn-pi.vercel.app/api/user', {  // Vercel 배포 주소로 수정
+    fetch('https://aaa-fawn-pi.vercel.app/api/user', {  // 서버 주소로 수정
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
