@@ -15,8 +15,9 @@
         #greeting-message, #balance {
             color: #000000; /* ooo님 반갑습니다와 잔고는 하얀색 */
         }
-         /* 로고 텍스트 색상 수정 */
-         .logo a {
+
+        /* 로고 텍스트 색상 수정 */
+        .logo a {
             color: #007bff; /* 로고 텍스트 색상 */
         }
     </style>
@@ -29,7 +30,7 @@
         </div>
         <div id="user-info" class="user-info">
             <span id="greeting-message" style="display: none;">OOO님, 반갑습니다!</span> <!-- 로그인된 사용자 이름 표시 -->
-            
+            <span id="balance" style="display: none;"></span> <!-- 잔고 표시 -->
             <button id="my-assets" class="btn-primary" style="display: none;">내 자산</button> <!-- 내 자산 버튼 -->
             <button id="logout-btn" class="btn-danger" style="display: none;">로그아웃</button>
         </div>
@@ -45,7 +46,6 @@
             <h1>UStock Plus에 오신 것을 환영합니다!</h1>
             <p>IPO 주식 거래 플랫폼에서 새로운 기회를 찾아보세요.</p>
             <a href="exchange.html" class="btn-primary">거래소 시작하기</a>
-            
         </div>
     </section>
 

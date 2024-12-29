@@ -1,101 +1,96 @@
 document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
 
+    // 로그인 버튼 클릭 시
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function () {
+            window.location.href = 'login.html';  // 로그인 페이지로 이동
+        });
+    }
+
+    // 회원가입 버튼 클릭 시
+    const signupBtn = document.getElementById('signup-btn');
+    if (signupBtn) {
+        signupBtn.addEventListener('click', function () {
+            window.location.href = 'signup.html';  // 회원가입 페이지로 이동
+        });
+    }
+
+    // 로그아웃 버튼 클릭 시
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
-            localStorage.removeItem('token');  // 로컬스토리지에서 토큰 삭제
-            checkLoginStatus();  // 로그인 상태 체크 후 UI 업데이트
+            localStorage.removeItem('token');  // 로컬 스토리지에서 토큰 삭제
+            checkLoginStatus();  // 로그인 상태 확인
+        });
+    }
+
+    // 내 자산 버튼 클릭 시 발란스 페이지로 이동
+    const myAssetsBtn = document.getElementById('my-assets');
+    if (myAssetsBtn) {
+        myAssetsBtn.addEventListener('click', function () {
+            window.location.href = 'balance.html';  // 발란스 페이지로 이동
         });
     }
 });
 
+// 로그인 상태 확인 함수
 function checkLoginStatus() {
-    const token = localStorage.getItem('token');  // 로컬스토리지에서 토큰 가져오기
-    const loginBtn = document.getElementById('login-btn');
-    const signupBtn = document.getElementById('signup-btn');
+    const token = localStorage.getItem('token');
     const greetingMessage = document.getElementById('greeting-message');
     const balanceElement = document.getElementById('balance');
+    const authMenu = document.getElementById('auth-menu');
     const logoutBtn = document.getElementById('logout-btn');
-    const assetsBtn = document.getElementById('assets-btn');  // 보유 자산 버튼
+    const myAssets = document.getElementById('my-assets');
 
-    // 로그인 상태에 따라 UI 업데이트
     if (token) {
-        // 로그인된 상태
-        if (loginBtn) loginBtn.style.display = 'none';
-        if (signupBtn) signupBtn.style.display = 'none';
-        if (logoutBtn) logoutBtn.style.display = 'inline-block';
-        if (assetsBtn) assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
-
-        getUserInfo(token);  // 사용자 정보 가져오기
+        // 로그인 상태일 경우
+        authMenu.style.display = 'none';  // 로그인/회원가입 버튼 숨기기
+        logoutBtn.style.display = 'inline-block';  // 로그아웃 버튼 보이기
+        myAssets.style.display = 'inline-block';  // 내 자산 버튼 보이기
+        getUserInfo(token);  // 사용자 정보와 잔고를 가져오는 함수 호출
         if (greetingMessage) {
-            greetingMessage.style.display = 'inline-block';
+            greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시하기 위해 보이게 함
         }
     } else {
-        // 로그인되지 않은 상태
-        if (loginBtn) loginBtn.style.display = 'inline-block';
-        if (signupBtn) signupBtn.style.display = 'inline-block';
-        if (logoutBtn) logoutBtn.style.display = 'none';
-        if (assetsBtn) assetsBtn.style.display = 'none'; // 보유 자산 버튼 숨기기
+        // 로그인 안 된 상태일 경우
         if (greetingMessage) {
-            greetingMessage.style.display = 'none';
+            greetingMessage.style.display = 'none';  // 로그인되지 않은 상태에서는 인사 메시지 숨기기
         }
         if (balanceElement) {
-            balanceElement.style.display = 'none';
+            balanceElement.style.display = 'none';  // 잔고 숨기기
         }
+        logoutBtn.style.display = 'none';  // 로그아웃 버튼 숨기기
+        authMenu.style.display = 'block';  // 로그인/회원가입 버튼 보이기
+        myAssets.style.display = 'none';  // 내 자산 버튼 숨기기
     }
 }
 
+// 서버에서 사용자 정보 및 잔고를 가져오는 함수
 function getUserInfo(token) {
-    fetch('https://aaa-fawn-pi.vercel.app/api/user', {  // 서버 주소로 수정
+    fetch('http://localhost:5000/user', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('서버 오류: ' + response.statusText);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.balance !== undefined) {
             const greetingMessage = document.getElementById('greeting-message');
             const balanceElement = document.getElementById('balance');
-            const stocksElement = document.getElementById('assets-container');
-
             if (greetingMessage) {
-                greetingMessage.textContent = `${data.name}님, 반갑습니다!`;
-                greetingMessage.style.display = 'inline-block';
+                greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
             }
             if (balanceElement) {
-                balanceElement.style.display = 'inline-block';
-                balanceElement.textContent = `잔고: ₩${data.balance.toLocaleString()}`;
+                balanceElement.textContent = `잔고: ₩${data.balance.toLocaleString()}`;  // 잔고 표시
             }
-
-            if (stocksElement) {
-                if (data.stocks && Array.isArray(data.stocks) && data.stocks.length > 0) {
-                    data.stocks.forEach(stock => {
-                        const stockItem = document.createElement('div');
-                        stockItem.classList.add('asset-card');
-                        stockItem.innerHTML = `
-                            <img src="${stock.logoUrl}" alt="${stock.name} 로고">
-                            <h3>${stock.name}</h3>
-                            <p>상장 예정일: ${new Date(stock.listingDate).toLocaleDateString()}</p>
-                            <p>청약 예정일: ${new Date(stock.subscriptionDate).toLocaleDateString()}</p>
-                            <p>자산 가치: ₩${stock.assetValue.toLocaleString()}</p>
-                            <p>수량: ${stock.quantity}</p>
-                        `;
-                        stocksElement.appendChild(stockItem);
-                    });
-                } else {
-                    stocksElement.innerHTML = '<p>보유한 자산이 없습니다.</p>';
-                }
-            }
+        } else {
+            console.error('잔고 정보가 없습니다.');
         }
     })
     .catch(error => {
-        console.error('자산 정보를 가져오는 데 오류가 발생했습니다:', error);
+        console.error('잔고 정보를 가져오는 데 오류가 발생했습니다:', error);
     });
 }
