@@ -87,9 +87,17 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ message: '아이디 또는 비밀번호가 잘못되었습니다.' });
     }
 
+    // JWT 토큰 발급
     const token = jwt.sign({ userId: user._id, id: user.id, name: user.name }, SECRET_KEY, { expiresIn: '1h' });
 
-    res.json({ message: '로그인 성공', token, name: user.name, balance: user.balance, stocks: user.stocks });
+    // 로그인 성공 후 사용자 이름과 잔고 정보 반환
+    res.json({ 
+      message: '로그인 성공', 
+      token, 
+      name: user.name, 
+      balance: user.balance, 
+      stocks: user.stocks 
+    });
   } catch (error) {
     res.status(500).json({ message: '서버 오류: ' + error.message });
   }
@@ -129,7 +137,26 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+// 보호된 사용자 정보 가져오기 API
+app.get('/user', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+    }
+
+    res.json({
+      name: user.name,
+      balance: user.balance,
+      stocks: user.stocks,
+    });
+  } catch (error) {
+    res.status(500).json({ message: '서버 오류: ' + error.message });
+  }
+});
+
 // 서버 실행
 app.listen(PORT, () => {
-  console.log(`서버가 http://localhost:${PORT}에서 실행 중`);
+  console.log(`서버가 http://localhost:${PORT}에서 실행 중입니다.`);
 });

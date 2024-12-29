@@ -72,7 +72,7 @@ function getUserInfo(token) {
     fetch('http://localhost:5000/user', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,  // 토큰을 헤더에 추가
         }
     })
     .then(response => response.json())
@@ -81,7 +81,7 @@ function getUserInfo(token) {
             const greetingMessage = document.getElementById('greeting-message');
             const balanceElement = document.getElementById('balance');
             if (greetingMessage) {
-                greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
+                greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 서버에서 받은 사용자 이름
             }
             if (balanceElement) {
                 balanceElement.textContent = `잔고: ₩${data.balance.toLocaleString()}`;  // 잔고 표시
