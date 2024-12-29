@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 
     // 사용자 정보와 함께 응답을 반환합니다.
     res.json({
-      name: user.name,
+      name: user.name,  // 정확히 사용자의 이름을 전달
       balance: user.balance,
       stocks: user.stocks,
     });
