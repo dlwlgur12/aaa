@@ -2,9 +2,13 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('../models/user');  // 정확한 소문자 경로로 수정
 
+// 데이터베이스 연결 설정
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Database connected'))
-    .catch(error => console.error('Database connection error:', error));
+    .catch(error => {
+        console.error('Database connection error:', error);
+        process.exit(1);
+    });
 
 module.exports = async (req, res) => {
   const { id, name, email, phone, brokerage, accountNumber, password } = req.body;
