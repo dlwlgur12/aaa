@@ -1,20 +1,15 @@
-// api/user.js
+const mongoose = require('mongoose');
 
-const User = require('./user');
-const authenticateToken = require('../utils/authenticateToken');  // JWT 인증 미들웨어
+const userSchema = new mongoose.Schema({
+    id: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true },
+    brokerage: { type: String, required: true },
+    accountNumber: { type: String, required: true },
+    password: { type: String, required: true },
+    balance: { type: Number, default: 0 },
+    stocks: { type: Array, default: [] }
+});
 
-module.exports = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.userId);
-    if (!user) {
-      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
-    }
-    res.json({
-      name: user.name,
-      balance: user.balance,
-      stocks: user.stocks || [],
-    });
-  } catch (error) {
-    res.status(500).json({ message: '서버 오류: ' + error.message });
-  }
-};
+module.exports = mongoose.model('User', userSchema);

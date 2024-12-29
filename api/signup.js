@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/user');  // User 모델을 불러옵니다.
+const mongoose = require('mongoose');
+const User = require('../models/User');  // User 모델을 불러옵니다.
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 module.exports = async (req, res) => {
   const { id, name, email, phone, brokerage, accountNumber, password } = req.body;
@@ -30,6 +33,7 @@ module.exports = async (req, res) => {
     await newUser.save();
     res.json({ message: '회원가입 성공' });
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json({ message: '서버 오류: ' + error.message });
   }
 };
