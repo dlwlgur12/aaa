@@ -25,7 +25,7 @@ function checkLoginStatus() {
         signupBtn.style.display = 'none';
         logoutBtn.style.display = 'inline-block';
         assetsBtn.style.display = 'inline-block';  // 보유 자산 버튼 표시
-        getUserInfo(token);
+        getUserInfo(token);  // 사용자 정보 가져오기
         if (greetingMessage) {
             greetingMessage.style.display = 'inline-block';
         }
