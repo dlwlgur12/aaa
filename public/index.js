@@ -7,12 +7,13 @@ const checkLoginStatus = async () => {
     }
   
     try {
-        const response = await fetch('https://aaa-fawn-pi.vercel.app/user', {
+        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/user', {  // '/api/user' 로 수정
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
             },
           });
+          
           
   
       if (response.ok) {
