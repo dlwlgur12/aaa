@@ -1,4 +1,3 @@
-// /api/login.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
@@ -32,7 +31,11 @@ module.exports = async (req, res) => {
     }
 
     // JWT 토큰 생성
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,  // 환경 변수에서 secret 가져오기
+      { expiresIn: '1h' }      // 1시간 후 만료
+    );
 
     res.json({ message: '로그인 성공', token, name: user.name });
   } catch (error) {

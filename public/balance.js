@@ -43,6 +43,9 @@ function getUserInfo(token) {
   })
       .then(response => {
           if (!response.ok) {
+              if (response.status === 504) {
+                  throw new Error('서버 응답 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
+              }
               throw new Error('서버 오류: ' + response.statusText);
           }
           return response.json();
@@ -85,5 +88,10 @@ function getUserInfo(token) {
       })
       .catch(error => {
           console.error('자산 정보를 가져오는 데 오류가 발생했습니다:', error);
+          const errorMessage = document.getElementById('error-message');
+          if (errorMessage) {
+              errorMessage.textContent = error.message;
+              errorMessage.style.display = 'block';
+          }
       });
 }
