@@ -146,7 +146,7 @@ app.post('/api/signup', async (req, res) => {
 // 보호된 사용자 정보 가져오기 API
 app.get('/api/user', authenticateToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findOne({ id: userId }).select('name balance stocks');
 
     if (!user) {
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
