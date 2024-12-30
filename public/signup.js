@@ -18,7 +18,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
     try {
         console.log('Sending request to /api/signup');
-        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/signup', {
+        const response = await fetch('https://aaa-eight-rouge.vercel.app/api/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
