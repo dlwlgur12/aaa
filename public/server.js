@@ -4,37 +4,75 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
+const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key';
 const PORT = process.env.PORT || 5000;
-const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
 
 // MongoDB 연결
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(
+  process.env.MONGO_URI || 'mongodb+srv://qpqp998974:qpqp998974@cluster0.z5hsl.mongodb.net/myDatabase?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+)
   .then(() => console.log('MongoDB 연결 성공'))
-  .catch(err => console.error('MongoDB 연결 오류:', err));
+  .catch(err => {
+    console.error('MongoDB 연결 오류:', err);
+    process.exit(1);
+  });
 
 // CORS 설정
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // 미들웨어
 app.use(bodyParser.json());
 
-// 사용자 관련 API
-const userRoutes = require('./api/user');
-app.use('/api/user', userRoutes);
+// 사용자 스키마
+const userSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true },
+  brokerage: { type: String, required: true },
+  accountNumber: { type: String, required: true },
+  password: { type: String, required: true },
+  balance: { type: Number, default: 0 },
+  stocks: [{
+    symbol: String,
+    name: String,
+    logoUrl: String,
+    quantity: Number,
+    assetValue: Number,
+    listingDate: Date,
+    subscriptionDate: Date,
+  }],
+});
 
-// 사용자 로그인 API
+const User = mongoose.model('user', userSchema);
+
+// JWT 인증 미들웨어
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: '로그인이 필요합니다.' });
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      console.error('JWT 검증 오류:', err);
+      return res.status(403).json({ message: '유효하지 않은 토큰입니다.' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// 로그인 API
 app.post('/api/login', async (req, res) => {
   const { id, password } = req.body;
 
@@ -44,6 +82,7 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const user = await User.findOne({ id });
+
     if (!user) {
       return res.status(400).json({ message: '아이디 또는 비밀번호가 잘못되었습니다.' });
     }
@@ -101,6 +140,27 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+// 사용자 정보 가져오기 API
+app.get('/api/user', authenticateToken, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const user = await User.findById(userId).select('name balance stocks');
+    if (!user) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+    }
+
+    res.json({
+      name: user.name,
+      balance: user.balance,
+      stocks: user.stocks,
+    });
+  } catch (error) {
+    res.status(500).json({ message: '서버 오류: ' + error.message });
+  }
+});
+
+// 서버 실행
 app.listen(PORT, () => {
   console.log(`서버가 http://localhost:${PORT}에서 실행 중입니다.`);
 });
