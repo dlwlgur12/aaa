@@ -68,7 +68,7 @@ const authenticateToken = (req, res, next) => {
       console.error('JWT 검증 오류:', err);  // 오류 로그 추가
       return res.status(403).json({ message: '유효하지 않은 토큰입니다.' });
     }
-    req.user = user;
+    req.user = user; // JWT에서 추출한 사용자 정보를 req.user에 저장
     next();
   });
 };
@@ -145,8 +145,10 @@ app.post('/api/signup', async (req, res) => {
 
 // 보호된 사용자 정보 가져오기 API
 app.get('/api/user', authenticateToken, async (req, res) => {
+  const { userId } = req.user;  // authenticateToken 미들웨어에서 userId를 추출
+
   try {
-    const user = await User.findOne({ id: userId }).select('name balance stocks');
+    const user = await User.findById(userId).select('name balance stocks');  // userId로 사용자 정보 조회
 
     if (!user) {
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
