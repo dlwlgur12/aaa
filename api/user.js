@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 module.exports = async (req, res) => {
@@ -14,8 +15,8 @@ module.exports = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId; // JWT에서 추출한 사용자 ID
 
-    // userId가 이미 문자열 형식이라면 바로 사용 가능
-    const user = await User.findById(userId).select('name balance stocks');
+    // userId를 ObjectId로 변환 (new 사용)
+    const user = await User.findById(new mongoose.Types.ObjectId(userId)).select('name balance stocks');
 
     console.log('Fetched user:', user); // 유저 정보 확인을 위한 로그 추가
 
