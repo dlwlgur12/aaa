@@ -1,4 +1,3 @@
-// index.js
 document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
 
@@ -51,7 +50,7 @@ function checkLoginStatus() {
         logoutBtn.style.display = 'inline-block';  // 로그아웃 버튼 보이기
         myAssets.style.display = 'inline-block';  // 내 자산 버튼 보이기
 
-        getUserInfo(token);  // 사용자 정보와 잔고를 가져오는 함수 호출
+        getuserInfo(token);  // 사용자 정보와 잔고를 가져오는 함수 호출
 
         if (greetingMessage) {
             greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시하기 위해 보이게 함
@@ -71,47 +70,28 @@ function checkLoginStatus() {
 }
 
 // 서버에서 사용자 정보 및 잔고를 가져오는 함수
-function getUserInfo(token) {
-    const controller = new AbortController();
-    
-
+function getuserInfo(token) {
     fetch('https://aaa-fawn-pi.vercel.app/api/user', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
-        },
-        signal: controller.signal, // 타임아웃과 연결된 신호 추가
-    })
-    .then(response => {
-        clearTimeout(timeoutId);  // 응답이 오면 타임아웃 해제
-        if (!response.ok) {
-            throw new Error(`서버 응답 오류: ${response.statusText}`);
         }
-        return response.json();
     })
+    .then(response => response.json())
     .then(data => {
-        if (data.name && data.balance !== undefined) {
-            const greetingMessage = document.getElementById('greeting-message');
-            const balanceElement = document.getElementById('balance');
+        const greetingMessage = document.getElementById('greeting-message');
+        const balanceElement = document.getElementById('balance');
 
-            if (greetingMessage) {
-                greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
-                greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시
-            }
-            if (balanceElement) {
-                balanceElement.textContent = `잔고: ${data.balance}원`;  // 잔고 표시
-                balanceElement.style.display = 'inline-block';  // 잔고를 보이게 함
-            }
-        } else {
-            console.error('사용자 정보가 부족합니다.');
+        if (greetingMessage) {
+            greetingMessage.textContent = `${data.name}님, 반갑습니다!`;  // 사용자 이름
+            greetingMessage.style.display = 'inline-block';  // 로그인 시 이름을 표시하기 위해 보이게 함
+        }
+        if (balanceElement) {
+            balanceElement.textContent = `잔고: ${data.balance}원`;  // 잔고 표시
+            balanceElement.style.display = 'inline-block';  // 로그인 후 잔고를 보이게 함
         }
     })
     .catch(error => {
-        clearTimeout(timeoutId);  // 오류가 발생하면 타임아웃 해제
-        if (error.name === 'AbortError') {
-            console.error('요청이 시간 초과되었습니다.');
-        } else {
-            console.error('사용자 정보를 가져오는 데 오류가 발생했습니다:', error);
-        }
+        console.error('사용자 정보를 가져오는 데 실패했습니다.', error);
     });
 }
