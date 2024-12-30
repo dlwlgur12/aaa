@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,13 +7,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
+// 환경변수 로드
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
 
-// MongoDB 연결
+// MongoDB 연결 (클러스터 URL 사용)
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -29,6 +31,9 @@ app.use(cors({
 
 // 미들웨어
 app.use(bodyParser.json());
+
+// user 모델을 소문자로 변경하여 불러옴
+const User = require('./models/user');
 
 // 사용자 관련 API
 const userRoutes = require('./api/user');
@@ -101,6 +106,7 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+// 서버 실행
 app.listen(PORT, () => {
   console.log(`서버가 http://localhost:${PORT}에서 실행 중입니다.`);
 });
