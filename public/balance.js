@@ -35,7 +35,7 @@ function checkLoginStatus() {
 }
 
 function getUserInfo(token) {
-  fetch('http://localhost:5000/api/user', {
+  fetch('https://aaa-fawn-pi.vercel.app/api/user', {
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${token}`,

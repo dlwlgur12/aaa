@@ -8,7 +8,7 @@ window.addEventListener('load', async function () {
     // 로그인 상태 확인
     if (token) {
       try {
-        const response = await fetch('http://localhost:5000/user', {
+        const response = await fetch('https://aaa-fawn-pi.vercel.app/api/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) throw new Error('토큰이 유효하지 않습니다.');
