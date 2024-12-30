@@ -4,22 +4,29 @@ require('dotenv').config();
 
 module.exports = async (req, res) => {
   console.time('api-user'); // 타이머 시작
+  console.log('Request received at:', new Date().toISOString());
 
   const token = req.headers['authorization']?.split(' ')[1]; // Bearer 토큰에서 실제 토큰 추출
 
   if (!token) {
+    console.warn('No token provided');
     return res.status(401).json({ message: '인증 토큰이 필요합니다.' });
   }
 
   try {
+    console.log('Token provided:', token);
     // JWT 토큰 검증
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded);
     const userId = decoded.userId; // JWT에서 추출한 사용자 ID
 
+    console.log('Decoded userId:', userId);
     // 사용자 정보 조회
-    const user = await User.findOne({ id: userId }, 'name balance stocks'); // select() 대신 projection 사용
+    const user = await User.findOne({ id: userId }, 'name balance stocks');
+    console.log('User found:', user);
 
     if (!user) {
+      console.warn('User not found for userId:', userId);
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
     }
 
