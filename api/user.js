@@ -12,10 +12,10 @@ module.exports = async (req, res) => {
   try {
     // JWT 토큰 검증
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = decoded.userId; // JWT에서 추출한 사용자 ID
 
     // 사용자 정보 조회
-    const user = await User.findById(userId).select('name balance stocks');
+    const user = await User.findOne({ id: userId }).select('name balance stocks');
 
     if (!user) {
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
@@ -23,9 +23,9 @@ module.exports = async (req, res) => {
 
     // 사용자 정보 응답
     res.json({
-      name: user.name,  // 사용자 이름
+      name: user.name,        // 사용자 이름
       balance: user.balance,  // 사용자 잔고
-      stocks: user.stocks,  // 사용자 보유 주식
+      stocks: user.stocks,    // 사용자 보유 주식
     });
   } catch (error) {
     console.error('Error during fetching user info:', error); // 서버 로그 기록
